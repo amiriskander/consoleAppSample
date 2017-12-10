@@ -40,10 +40,20 @@ class CounterCommand extends Command
         $count = $input->getArgument('count') ?? 1;
 
         $progress = new ProgressBar($output, $count);
+
+        $progress->setBarCharacter('+');
+        $progress->setEmptyBarCharacter('-');
+
         $progress->start();
 
+        $progress->setFormatDefinition('custom', ' %current%/%max% Wasting your time in progress - [%bar%] %percent%%');
+        $progress->setFormat('custom');
+
         for ($i = 0; $i < $count; $i++) {
-            // $output->writeln($count);
+            // $progress->setMessage("count: $count");
+
+            $progress->setMessage($i, 'current');
+            $progress->setMessage($count, 'max');
             sleep(1);
             $progress->advance();
         }
